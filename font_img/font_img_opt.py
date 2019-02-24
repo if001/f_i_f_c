@@ -1,4 +1,5 @@
 import os
+import unicodedata
 from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageEnhance, ImageFilter
 import plyvel
 import numpy as np
@@ -7,19 +8,19 @@ import sys
 
 
 class FontImgOpt():
-    def __init__(self, image_save_path="./", font_path="./"):
+    def __init__(self, image_save_path="./image/", font_path="./fonts/"):
         self.font_size = 28
         self.font_size_en = 32
         self.pict_height = 28
         self.pict_width = 28
 
         self.font_file = os.path.join(
-            font_path, '/RictyDiminished-Regular.ttf')
+            font_path, 'RictyDiminished-Regular.ttf')
         self.font_file = os.path.join(
-            font_path, '/hiragino_maru_go_ProN_W4.ttc')
-        self.img_save_dir = os.path.join(image_save_path, '/image/')
+            font_path, 'hiragino_maru_go_ProN_W4.ttc')
+        self.img_save_dir = os.path.join(image_save_path)
 
-    def save_image(self.yomi, font, prefix, processing=None, pos=(0, 0), rad=None):
+    def save_image(self, yomi, font, prefix, processing=None, pos=(0, 0), rad=None):
         image = Image.new(
             'RGB', (self.pict_height, self.pict_width), (255, 255, 255))
 
@@ -38,45 +39,45 @@ class FontImgOpt():
     def is_exist(self, yomi):
         return os.path.isfile(self.img_save_dir + yomi + '.png')
 
-    def char2font(char, font_file=None):
-        yomi_str = inp
+    def char2font(self, char, font_file=None):
+        yomi_str = char
         if font_file is None:
             font_file = self.font_file
-
-        if unicodedata.east_asian_width(inp) in 'FWA':  # 全角のとき
+        print(font_file)
+        if unicodedata.east_asian_width(char) in 'FWA':  # 全角のとき
             font = ImageFont.truetype(
-                font_file, Conf.font_size, encoding='unic')
+                font_file, self.font_size, encoding='unic')
         else:
             font = ImageFont.truetype(
-                font_file, Conf.font_size_en, encoding='unic')
+                font_file, self.font_size_en, encoding='unic')
         return font
 
-    def create_font_img(char, yomi_str, font_file=None):
+    def create_font_img(self, yomi_str, font, font_file=None):
         img_pos = [(0, 0), (0, 3), (0, 6), (3, 0), (6, 0), (3, 3), (6, 6)]
         for i in range(len(img_pos)):
             prefix = str(i)
-            if not is_exist(yomi_str + "_" + prefix):
-                save_image(yomi_str, font, prefix, pos=img_pos[i])
+            if not self.is_exist(yomi_str + "_" + prefix):
+                self.save_image(yomi_str, font, prefix, pos=img_pos[i])
 
         shape_method_set = [
             ShapeMethodSet("flip", func=ImageOps.flip),
             ShapeMethodSet("mirror", func=ImageOps.mirror),
             ShapeMethodSet("rotate_90", rad=90),
             ShapeMethodSet("rotate_180", rad=180),
-            ShapeMethodSet("contrast_50", fucn=ShapeMethod.contrast_50),
+            ShapeMethodSet("contrast_50", func=ShapeMethod.contrast_50),
             ShapeMethodSet("sharpness_0", func=ShapeMethod.sharpness_0),
             ShapeMethodSet("sharpness_2", func=ShapeMethod.sharpness_2),
-            ShapeMethodSet("gaussianblur", fucn=ShapeMethod.gaussian_bluer),
+            ShapeMethodSet("gaussianblur", func=ShapeMethod.gaussian_bluer),
             ShapeMethodSet("erosion", func=ShapeMethod.erosion),
             ShapeMethodSet("dilation", func=ShapeMethod.dilation),
         ]
 
         for shape_method in shape_method_set:
-            if not is_exist(yomi_str + "_" + shape_method.name):
-                save_image(yomi_str, font,
-                           shape_method.name,
-                           processing=shape_method.func,
-                           shape_method.rad)
+            if not self.is_exist(yomi_str + "_" + shape_method.name):
+                self.save_image(yomi_str, font,
+                                shape_method.name,
+                                processing=shape_method.func,
+                                rad=shape_method.rad)
 
 
 class ShapeMethodSet():
@@ -122,15 +123,15 @@ class ShapeMethod():
 
 
 def main():
-    with open("../aozora_data/files/files_all_rnp.txt") as f:
+    with open("../data/files_all_rnp.txt") as f:
         char_list = list(set(list(f.read())))
 
-    if '\n' in word_list:
-        word_list.remove('\n')
-    if ' ' in word_list:
-        word_list.remove(' ')
-    if '' in word_list:
-        word_list.remove('')
+    if '\n' in char_list:
+        char_list.remove('\n')
+    if ' ' in char_list:
+        char_list.remove(' ')
+    if '' in char_list:
+        char_list.remove('')
 
     font_img_opt = FontImgOpt()
     for char in char_list:
