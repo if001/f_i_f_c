@@ -1,2 +1,21 @@
 # fifc
 ![fifc](https://user-images.githubusercontent.com/15050355/53283888-e1397180-378f-11e9-8096-75b42a2bc0aa.png)
+
+ fifc_opt.py 
+ 
+## font_img
+fontファイルから、1文字ごとに画像ファイルを生成する。  
+画像のファイルの保存名は、1文字の読みを16進数変換したものを利用する。  
+`font_img/font_img_opt.py`のmainを実行することで、  
+font_img/以下のimageディレクトリに全フォントの画像が生成される。  
+
+## img_char
+画像と1文字を相互に変換  
+font_imgで画像が生成されていることが前提となる.  
+毎回画像はロードせず、kvs(font_img/img_save_kvs.py)に  
+flattenされた画像配列と読み方を保存.  
+
+## img_feature
+画像と特徴量を相互変換  
+変換をするためには、autoecoderを学習させておく必要がある。  
+学習用にfont_img/image/以下に画像ファイルを準備しておく。  
