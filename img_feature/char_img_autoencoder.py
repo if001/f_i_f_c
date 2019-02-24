@@ -11,10 +11,12 @@ class CharImgAutoencoder():
         self.save_weight_file = save_weight_file
         if init_model:
             self.autoencoder = self.__make_model()
+            self.encoder = self.__make_encoder_model()
+            self.decoder = self.__make_encoder_model()
         else:
             self.autoencoder = self.__load_model()
-        self.encoder = self.__make_encoder_model()
-        self.decoder = self.__make_encoder_model()
+            self.encoder = self.__make_encoder_model(debug=False)
+            self.decoder = self.__make_decoder_model(debug=False)
 
     def callback_list(self):
         es_cb = callbacks.EarlyStopping(
@@ -45,7 +47,7 @@ class CharImgAutoencoder():
         autoencoder.summary()
         return autoencoder
 
-    def __make_encoder_model(self):
+    def __make_encoder_model(self, debug=True):
         encode = self.autoencoder.layers[0:7]
 
         input_img = Input(shape=(28, 28, 3))
@@ -57,10 +59,11 @@ class CharImgAutoencoder():
         encoded = encode[6](x)
 
         encoder = Model(input_img, encoded)
-        encoder.summary()
+        if debug:
+            encoder.summary()
         return encoder
 
-    def __make_decoder_model(self):
+    def __make_decoder_model(self, debug=True):
         decode = self.autoencoder.layers[7:]
         input_img = Input(shape=(4, 4, 8))
         x = decode[0](input_img)
@@ -72,7 +75,8 @@ class CharImgAutoencoder():
         decoded = decode[6](x)
 
         decoder = Model(input_img, decoded)
-        decoder.summary()
+        if debug:
+            decoder.summary()
         return decoder
 
     def save_model(self):

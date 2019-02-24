@@ -29,6 +29,9 @@ class ImgCharOpt():
         return img
 
     def image2char(self, img):
+        """
+        (28,28,3)
+        """
         dig_sim = 0
         label = ""
         img = img.flatten()
@@ -46,9 +49,12 @@ class ImgCharOpt():
         return char
 
     def char2image(self, char):
-        img = self.i2k.get(char)
+        bytes_yomi = char.encode("UTF-8").hex()
+        img = self.i2k.get(bytes_yomi)
+        img = np.array(img)
+        img.resize((28, 28, 3))
         return img
-        # image_path = os.path.join(self.image_save_path, bytes_yomi + "_.png")
+        # image_path = os.path.join(self.image_save_path, bytes_yomi + "_0.png")
         # return self.load_image(image_path)
 
 
@@ -63,6 +69,7 @@ def all_save_kvs():
             print(yomi)
             img = img_char_opt.load_image(yomi)
             img = img.flatten()
+
             if img_char_opt.i2k.get(yomi) is None:
                 img_char_opt.i2k.put(yomi, img)
 

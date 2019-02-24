@@ -1,5 +1,7 @@
+import sys
 sys.path.append("../")
 from img_feature.char_img_autoencoder import CharImgAutoencoder
+import numpy as np
 
 
 class ImgFeatureOpt():
@@ -7,12 +9,18 @@ class ImgFeatureOpt():
         self.char_img = CharImgAutoencoder(char_auto_encoder_weight_file)
 
     def img2feature(self, img):
-        result = self.char_img.encoder(img)
-        return result[0]
+        """
+        input_dim: (28,28,3)
+        """
+        result = self.char_img.encoder.predict(np.array([img]))
+        return np.array(result[0])
 
     def feature2img(self, feature):
-        result = self.char_img.decoder(feature)
-        return result[0]
+        """
+        input_dim: (4,4,8)
+        """
+        result = self.char_img.decoder.predict(np.array([feature]))
+        return np.array(result[0])
 
 
 def main():

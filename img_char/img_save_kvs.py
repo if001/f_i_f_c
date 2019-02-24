@@ -34,6 +34,10 @@ class ImageSaveKvs():
 
         if value is not None:
             value = [x for x in value]
+        if value is None:
+            print("not found key:", key)
+            raise ValueError()
+
         return value
 
     def delete(self, key):
@@ -53,4 +57,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-x
