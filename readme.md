@@ -1,12 +1,15 @@
 # fifc
 ![fifc](https://user-images.githubusercontent.com/15050355/53283888-e1397180-378f-11e9-8096-75b42a2bc0aa.png)
 
-## fifc_opt.py 
-以下の変換を行う  
+ある1つの文字をフォント画像の特徴量を使いベクトルに変換する  
+特徴量ベクトルからある1つの文字への変換も可能  
 
-- img ⇄char
-- feat⇄img
-- char⇄feat
+## fifc_opt.py 
+以下の変換が行える  
+
+- char⇄img
+- img⇄feature
+- feature⇄char
 
 以下の初期化をあらかじめ行う必要がある。  
 
