@@ -8,9 +8,9 @@ from img_char.img_save_kvs import ImageSaveKvs
 
 
 class ImgCharOpt():
-    def __init__(self, image_save_path="../font_img/image", db_path="./image_save_dict/"):
+    def __init__(self, image_save_path="../font_img/image/", db_path="./image_save_dict/"):
         self.image_save_path = image_save_path
-        self.db_path = db_path
+        self.i2k = ImageSaveKvs(save_db_path=db_path)
 
     def exclude_extension(self, st):
         return st.split(".")[0]
@@ -33,12 +33,11 @@ class ImgCharOpt():
         label = ""
         img = img.flatten()
         files = os.listdir(self.image_save_path)
-        i2k = ImageSaveKvs(save_db_path=self.db_path)
 
         for fname in files:
             if self.extension(fname) == "png" and (self.exclude_extension(fname).split("_")[1] == "0"):
                 yomi = self.exclude_extension(fname).split("_")[0]
-                load_img = i2k.get(yomi)
+                load_img = self.i2k.get(yomi)
                 sim = self.similarity(img, load_img)
                 if dig_sim < sim:
                     dig_sim = sim
@@ -47,16 +46,16 @@ class ImgCharOpt():
         return char
 
     def char2image(self, char):
-        bytes_yomi = char.encode("UTF-8").hex()
-        image_path = os.path.join(self.image_save_path, bytes_yomi + "_.png")
-        return self.load_image(image_path)
+        img = self.i2k.get(char)
+        return img
+        # image_path = os.path.join(self.image_save_path, bytes_yomi + "_.png")
+        # return self.load_image(image_path)
 
 
 def all_save_kvs():
     image_file_dir = "../font_img/image/"
     image_files = os.listdir(image_file_dir)
 
-    i2k = ImageSaveKvs()
     img_char_opt = ImgCharOpt()
     for fname in image_files:
         if "_0" in img_char_opt.exclude_extension(fname):
@@ -64,8 +63,8 @@ def all_save_kvs():
             print(yomi)
             img = img_char_opt.load_image(yomi)
             img = img.flatten()
-            if i2k.get(yomi) is None:
-                i2k.put(yomi, img)
+            if img_char_opt.i2k.get(yomi) is None:
+                img_char_opt.i2k.put(yomi, img)
 
 
 def main():
