@@ -6,7 +6,9 @@
 ## font_img
 fontファイルから、1文字ごとに画像ファイルを生成する。  
 画像のファイルの保存名は、1文字の読みを16進数変換したものを利用する。  
-`font_img/font_img_opt.py`のmainを実行することで、  
+
+### 初期化
+`font_img/font_img_opt.py`のmainを実行  
 font_img/以下のimageディレクトリに全フォントの画像が生成される。  
 
 ## img_char
@@ -14,6 +16,10 @@ font_img/以下のimageディレクトリに全フォントの画像が生成さ
 font_imgで画像が生成されていることが前提となる.  
 毎回画像はロードせず、kvs(font_img/img_save_kvs.py)に  
 flattenされた画像配列と読み方を保存.  
+
+### 初期化
+`img_char/img_char_opt.py`のmainを実行  
+画像と読みをkvsに保存。  
 
 ## img_feature
 画像と特徴量を相互変換  
