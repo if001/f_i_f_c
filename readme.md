@@ -1,8 +1,15 @@
 # fifc
 ![fifc](https://user-images.githubusercontent.com/15050355/53283888-e1397180-378f-11e9-8096-75b42a2bc0aa.png)
 
- fifc_opt.py 
- 
+## fifc_opt.py 
+以下の変換を行う  
+
+- img ⇄char
+- feat⇄img
+- char⇄feat
+
+以下の初期化をあらかじめ行う必要がある。  
+
 ## font_img
 fontファイルから、1文字ごとに画像ファイルを生成する。  
 画像のファイルの保存名は、1文字の読みを16進数変換したものを利用する。  
@@ -24,4 +31,7 @@ flattenされた画像配列と読み方を保存.
 ## img_feature
 画像と特徴量を相互変換  
 変換をするためには、autoecoderを学習させておく必要がある。  
+
+### 初期化
+`img_feature/train.py`を実行  
 学習用にfont_img/image/以下に画像ファイルを準備しておく。  
