@@ -2,7 +2,7 @@ from keras.layers import Input, Dense, Conv2D, MaxPooling2D, UpSampling2D, Batch
 from keras.models import Model
 from keras import backend as K
 import keras
-from keras import callbacks, CSVLogger
+from keras.callbacks import EarlyStopping, CSVLogger
 import os
 
 
@@ -19,7 +19,7 @@ class CharImgAutoencoder():
             self.decoder = self.__make_decoder_model(debug=False)
 
     def callback_list(self, log_file_name="./training_log.csv"):
-        es_cb = callbacks.EarlyStopping(
+        es_cb = EarlyStopping(
             monitor='val_loss', patience=3, verbose=1, mode='auto')
         csv_logger = CSVLogger(log_file_name)
         return [es_cb]
