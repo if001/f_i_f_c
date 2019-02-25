@@ -70,27 +70,12 @@ class CharImgAutoencoder():
 
         inp = Input(shape=(28, 28, 3))
         x = inp
-        for encoder in self.autoencoder.layers[:idx + 1]:
+        for encoder in self.autoencoder.layers[1:idx + 1]:
             x = encoder(x)
         encoder_model = Model(inp, x)
         if debug:
             encoder_model.summary()
         return encoder_model
-
-        # encode = self.autoencoder.layers[0:7]
-
-        # input_img = Input(shape=(28, 28, 3))
-        # x = encode[1](input_img)
-        # x = encode[2](x)
-        # x = encode[3](x)
-        # x = encode[4](x)
-        # x = encode[5](x)
-        # encoded = encode[6](x)
-
-        # encoder = Model(input_img, encoded)
-        # if debug:
-        #     encoder.summary()
-        # return encoder
 
     def __make_decoder_model(self, debug=True):
         l = self.__search_layer("decoder")
@@ -105,24 +90,10 @@ class CharImgAutoencoder():
             decoder_model.summary()
         return decoder_model
 
-        # decode = self.autoencoder.layers[7:]
-        # input_img = Input(shape=(4, 4, 8))
-        # x = decode[0](input_img)
-        # x = decode[1](x)
-        # x = decode[2](x)
-        # x = decode[3](x)
-        # x = decode[4](x)
-        # x = decode[5](x)
-        # decoded = decode[6](x)
-
-        # decoder = Model(input_img, decoded)
-        # if debug:
-        #     decoder.summary()
-        # return decoder
-
     def __search_layer(self, name):
         res = None
         for l in self.autoencoder.layers:
+            print(l.name)
             if l.name == name:
                 res = l
         return res
