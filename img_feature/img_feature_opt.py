@@ -11,7 +11,9 @@ class ImgFeatureOpt():
     def img2feature(self, img):
         """
         input_dim: (28,28,3)
+        input: image color range 0~255
         """
+        img = img / 255.
         result = self.char_img.encoder.predict(np.array([img]))
         return np.array(result[0])
 
@@ -20,7 +22,8 @@ class ImgFeatureOpt():
         input_dim: (4,4,8)
         """
         result = self.char_img.decoder.predict(np.array([feature]))
-        return np.array(result[0])
+        result = np.array(result[0]) * 255.
+        return result
 
 
 def main():
