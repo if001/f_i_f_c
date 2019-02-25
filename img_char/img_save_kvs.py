@@ -34,9 +34,9 @@ class ImageSaveKvs():
 
         if value is not None:
             value = [x for x in value]
-        if value is None:
-            print("not found key:", key)
-            raise ValueError()
+        # if value is None:
+        #     print("not found key:", key)
+        #     raise ValueError()
 
         return value
 
