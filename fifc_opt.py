@@ -58,14 +58,36 @@ def main():
     # char = "退"
 
     # img feat char
-    # feat = fifc_opt.img2feat(img)
-    # img = fifc_opt.feat2img(feat)
-    # char = fifc_opt.img2char(img)
+    feat = fifc_opt.img2feat(img)
+    img = fifc_opt.feat2img(feat)
+    char = fifc_opt.img2char(img)
 
     # char img char
     char = "退"
     img = fifc_opt.char2img(char)
     char = fifc_opt.img2char(img)
+    print(char)
+
+    # char img feat img char
+    char = "退"
+    # img = fifc_opt.char2img(char)
+    # feat = fifc_opt.img2feat(img)
+    # img = fifc_opt.feat2img(feat)
+    # char = fifc_opt.img2char(img)
+    # print(char)
+
+    # char feat char
+    char = "私"
+    feat = fifc_opt.char2feat(char)
+    char = fifc_opt.feat2char(feat)
+    print(char)
+    char = "あ"
+    feat = fifc_opt.char2feat(char)
+    char = fifc_opt.feat2char(feat)
+    print(char)
+    char = "明"
+    feat = fifc_opt.char2feat(char)
+    char = fifc_opt.feat2char(feat)
     print(char)
 
 

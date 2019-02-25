@@ -18,7 +18,7 @@ def main():
                                  metrics=['acc'])
     char_img.autoencoder.fit(train_x, train_y,
                              batch_size=256,
-                             epochs=1,
+                             epochs=400,
                              verbose=1,
                              validation_data=(test_x, test_y),
                              callbacks=char_img.callback_list())

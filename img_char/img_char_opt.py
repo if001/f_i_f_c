@@ -38,7 +38,7 @@ class ImgCharOpt():
         files = os.listdir(self.image_save_path)
 
         for fname in files:
-            if self.extension(fname) == "png" and (self.exclude_extension(fname).split("_")[1] == "0"):
+            if (self.extension(fname)) == "png" and (self.exclude_extension(fname).split("_")[1] == "0"):
                 yomi = self.exclude_extension(fname).split("_")[0]
                 load_img = self.i2k.get(yomi)
                 sim = self.similarity(img, load_img)
