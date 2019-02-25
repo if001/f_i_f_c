@@ -13,14 +13,13 @@ def main():
         test_size, "../font_img/image/")
     char_img = CharImgAutoencoder(
         "./weight/char_feature.hdf5", init_model=True)
-    char_img.autoencoder.compile(optimizer='adam',
-                                 loss='mean_squared_error',
-                                 metrics=['acc'])
+
     loss = 'mean_squared_error'
     loss = 'binary_crossentropy'
     opt = 'adam'
     char_img.autoencoder.compile(optimizer=opt,
-                                 loss=loss)
+                                 loss=loss,
+                                 metrics=['acc'])
 
     char_img.autoencoder.fit(train_x, train_y,
                              batch_size=256,
