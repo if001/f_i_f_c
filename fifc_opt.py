@@ -1,7 +1,7 @@
 from font_img.font_img_opt import FontImgOpt
 from img_char.img_char_opt import ImgCharOpt
 from img_feature.img_feature_opt import ImgFeatureOpt
-from PIL import Image
+from PIL import Image, ImageDraw
 import numpy as np
 
 
@@ -47,10 +47,21 @@ def img_open(filepath):
     return img
 
 
+def create_img_from_nparr(img_name, np_array):
+    img_arr = Image.fromarray(np.uint8(np_array))
+    img_arr.save(img_name)
+
+
 def main():
     fifc_opt = FifcOpt()
     img_path = "./font_img/image/e98080_0.png"
     img = img_open(img_path)
+    create_img_from_nparr("./test1.png", img)
+    feat = fifc_opt.img2feat(img)
+    img = fifc_opt.feat2img(feat)
+    print(img)
+    create_img_from_nparr("./test2.png", img)
+    exit(0)
 
     # img char img
     char = fifc_opt.img2char(img)

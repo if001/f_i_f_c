@@ -1,4 +1,4 @@
-from keras.layers import Input, Dense, Conv2D, MaxPooling2D, UpSampling2D, BatchNormalization, ReLU
+from keras.layers import Input, Dense, Conv2D, MaxPooling2D, UpSampling2D, BatchNormalization, ReLU, Dropout
 from keras.models import Model
 from keras import backend as K
 import keras
@@ -27,32 +27,39 @@ class CharImgAutoencoder():
     def __make_model(self):
         input_img = Input(shape=(28, 28, 3))
         x = Conv2D(16, (3, 3), padding='same')(input_img)
-        x = BatchNormalization()(x)
+        # x = BatchNormalization()(x)
         x = ReLU()(x)
+        x = Dropout(0.6)(x)
         x = MaxPooling2D((2, 2), padding='same')(x)
-        x = BatchNormalization()(x)
+        # x = BatchNormalization()(x)
         x = ReLU()(x)
+        x = Dropout(0.6)(x)
         x = Conv2D(8, (3, 3),  padding='same')(x)
-        x = BatchNormalization()(x)
+        # x = BatchNormalization()(x)
         x = ReLU()(x)
+        x = Dropout(0.6)(x)
         x = MaxPooling2D((2, 2), padding='same')(x)
         x = Conv2D(8, (3, 3),  padding='same')(x)
         encoded = MaxPooling2D((2, 2), padding='same', name="encoder")(x)
         # encoder = Model(input_img, encoded)
 
         x = Conv2D(8, (3, 3),  padding='same', name="decoder")(encoded)
-        x = BatchNormalization()(x)
+        # x = BatchNormalization()(x)
         x = ReLU()(x)
+        x = Dropout(0.6)(x)
         x = UpSampling2D((2, 2))(x)
         x = Conv2D(8, (3, 3),  padding='same')(x)
-        x = BatchNormalization()(x)
+        # x = BatchNormalization()(x)
         x = ReLU()(x)
-        x = BatchNormalization()(x)
+        x = Dropout(0.6)(x)
+        # x = BatchNormalization()(x)
         x = ReLU()(x)
+        x = Dropout(0.6)(x)
         x = UpSampling2D((2, 2))(x)
         x = Conv2D(16, (3, 3))(x)
-        x = BatchNormalization()(x)
+        # x = BatchNormalization()(x)
         x = ReLU()(x)
+        x = Dropout(0.6)(x)
         x = UpSampling2D((2, 2))(x)
         decoded = Conv2D(3, (3, 3), activation='sigmoid', padding='same')(x)
 

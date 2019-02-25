@@ -1,4 +1,5 @@
-data/
+data/*
+!data/.gitkeep
 font_img/image/*
 !font_img/image/.gitkeep
 font_img/fonts/hiragino_maru_go_ProN_W4.ttc

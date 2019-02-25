@@ -18,6 +18,10 @@ class ImgLoader():
             img = None
         return img
 
+    def __create_img_from_nparr(cls, img_name, np_array):
+        img_arr = Image.fromarray(np.uint8(np_array))
+        img_arr.save(img_name)
+
     @classmethod
     def make_train_data(cls, batch_size, img_file_dir):
         image_list = []
