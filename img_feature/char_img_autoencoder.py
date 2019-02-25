@@ -10,7 +10,8 @@ class CharImgAutoencoder():
     def __init__(self, save_weight_file, init_model=False):
         self.save_weight_file = save_weight_file
         if init_model:
-            self.autoencoder = self.__make_model()
+            # self.autoencoder = self.__make_model()
+            self.autoencoder = self.__make_gray_scale_model()
             self.encoder = self.__make_encoder_model()
             self.decoder = self.__make_decoder_model()
         else:
@@ -64,18 +65,41 @@ class CharImgAutoencoder():
         decoded = Conv2D(3, (3, 3), activation='sigmoid', padding='same')(x)
 
         autoencoder = Model(input_img, decoded)
-        # loss = 'mean_squared_error'
-        # loss = 'binary_crossentropy'
-        # autoencoder.compile(optimizer='adam',
-        #                     loss=loss)
+        autoencoder.summary()
+        return autoencoder
+
+    def __make_gray_scale_model(self):
+        input_img = Input(shape=(28, 28, 1))
+
+        x = Conv2D(16, (3, 3), activation='relu', padding='same')(input_img)
+        x = BatchNormalization()(x)
+        x = ReLU()(x)
+        x = MaxPooling2D((2, 2), padding='same')(x)
+        x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+        x = MaxPooling2D((2, 2), padding='same')(x)
+        x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+        encoded = MaxPooling2D((2, 2), padding='same', name="encoder")(x)
+
+        x = Conv2D(8, (3, 3), activation='relu',
+                   padding='same', name="decoder")(encoded)
+        x = UpSampling2D((2, 2))(x)
+        x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+        x = UpSampling2D((2, 2))(x)
+        x = Conv2D(16, (3, 3), activation='relu')(x)
+        x = BatchNormalization()(x)
+        x = ReLU()(x)
+        x = UpSampling2D((2, 2))(x)
+        decoded = Conv2D(1, (3, 3), activation='sigmoid', padding='same')(x)
+
+        autoencoder = Model(input_img, decoded)
         autoencoder.summary()
         return autoencoder
 
     def __make_encoder_model(self, debug=True):
         l = self.__search_layer("encoder")
         idx = self.autoencoder.layers.index(l)
-
-        inp = Input(shape=(28, 28, 3))
+        inp = Input(shape=(28, 28, 1))
+        # inp = Input(shape=(28, 28,3))# color scale
         x = inp
         for encoder in self.autoencoder.layers[1:idx + 1]:
             x = encoder(x)

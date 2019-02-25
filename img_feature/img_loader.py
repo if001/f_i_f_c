@@ -11,9 +11,11 @@ class ImgLoader():
     def __img_open(cls, filepath):
         try:
             img = Image.open(filepath)
-            img = img.convert("RGB")
+            # img = img.convert("RGB")
+            img = img.convert('L')
             img = img.resize((28, 28))
             img = np.array(img)
+            img = img.reshape(28, 28, 1)
         except:
             img = None
         return img
