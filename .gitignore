@@ -12,3 +12,4 @@ img_char/__pycache__
 img_feature/__pycache__
 img_feature/weight/*
 !img_feature/weight/.gitkeep
+img_feature/training_log.csv
