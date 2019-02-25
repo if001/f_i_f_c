@@ -72,24 +72,39 @@ class CharImgAutoencoder():
     def __make_gray_scale_model(self):
         input_img = Input(shape=(28, 28, 1))
 
-        x = Conv2D(16, (3, 3), activation='relu', padding='same')(input_img)
+        x = Conv2D(16, (3, 3), padding='same')(input_img)
         x = BatchNormalization()(x)
         x = ReLU()(x)
         x = MaxPooling2D((2, 2), padding='same')(x)
-        x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+
+        x = Conv2D(16, (3, 3), padding='same')(input_img)
+        x = BatchNormalization()(x)
+        x = ReLU()(x)
         x = MaxPooling2D((2, 2), padding='same')(x)
-        x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+
+        x = Conv2D(8, (3, 3), padding='same')(x)
+        x = BatchNormalization()(x)
+        x = ReLU()(x)
+        x = MaxPooling2D((2, 2), padding='same')(x)
+
+        x = Conv2D(8, (3, 3), padding='same')(x)
+        x = ReLU()(x)
         encoded = MaxPooling2D((2, 2), padding='same', name="encoder")(x)
 
-        x = Conv2D(8, (3, 3), activation='relu',
-                   padding='same', name="decoder")(encoded)
+        x = Conv2D(8, (3, 3), padding='same', name="decoder")(encoded)
+        x = ReLU()(x)
         x = UpSampling2D((2, 2))(x)
-        x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
-        x = UpSampling2D((2, 2))(x)
-        x = Conv2D(16, (3, 3), activation='relu')(x)
+
+        x = Conv2D(8, (3, 3), padding='same')(x)
         x = BatchNormalization()(x)
         x = ReLU()(x)
         x = UpSampling2D((2, 2))(x)
+
+        x = Conv2D(16, (3, 3))(x)
+        x = BatchNormalization()(x)
+        x = ReLU()(x)
+        x = UpSampling2D((2, 2))(x)
+
         decoded = Conv2D(1, (3, 3), activation='sigmoid', padding='same')(x)
 
         autoencoder = Model(input_img, decoded)

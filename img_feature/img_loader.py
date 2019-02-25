@@ -25,7 +25,21 @@ class ImgLoader():
         img_arr.save(img_name)
 
     @classmethod
-    def make_train_data(cls, batch_size, img_file_dir):
+    def make_train_data(cls, img_file_dir):
+        image_list = []
+        files = os.listdir(img_file_dir)
+
+        for f in files:
+            if (f.split(".")[-1] == "png"):
+                filepath = os.path.join(img_file_dir, f)
+                img = cls.__img_open(filepath)
+                image_list.append(img / 255.)
+
+        image_list = np.array(image_list)
+        return image_list, image_list
+
+    @classmethod
+    def make_train_data_random(cls, batch_size, img_file_dir):
         image_list = []
         files = os.listdir(img_file_dir)
 
