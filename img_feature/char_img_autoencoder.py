@@ -23,7 +23,7 @@ class CharImgAutoencoder():
         es_cb = EarlyStopping(
             monitor='val_loss', patience=3, verbose=1, mode='auto')
         csv_logger = CSVLogger(log_file_name)
-        return [es_cb]
+        return [es_cb, csv_logger]
 
     def __make_model(self):
         input_img = Input(shape=(28, 28, 3))
@@ -41,6 +41,7 @@ class CharImgAutoencoder():
         x = Dropout(0.6)(x)
         x = MaxPooling2D((2, 2), padding='same')(x)
         x = Conv2D(8, (3, 3),  padding='same')(x)
+        x = ReLU()(x)
         encoded = MaxPooling2D((2, 2), padding='same', name="encoder")(x)
         # encoder = Model(input_img, encoded)
 

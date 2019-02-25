@@ -11,7 +11,7 @@ class ImgFeatureOpt():
     def img2feature(self, img):
         """
         input_dim: (28,28,3) color
-        input_dim: (1,28,28)
+        input_dim: (28,28,1)
         input: image color range 0~255
         """
         img = img / 255.

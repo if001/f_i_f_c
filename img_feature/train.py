@@ -17,6 +17,7 @@ def main():
     loss = 'mean_squared_error'
     loss = 'binary_crossentropy'
     opt = 'adam'
+    opt = 'adadelta'
     char_img.autoencoder.compile(optimizer=opt,
                                  loss=loss,
                                  metrics=['acc'])

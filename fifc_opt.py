@@ -41,9 +41,11 @@ class FifcOpt():
 
 def img_open(filepath):
     img = Image.open(filepath)
-    img = img.convert("RGB")
+    # img = img.convert("RGB")
+    img = img.convert("L")
     img = img.resize((28, 28))
     img = np.array(img)
+    img = img.reshape(28, 28, 1)
     return img
 
 
