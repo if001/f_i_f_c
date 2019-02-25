@@ -93,7 +93,6 @@ class CharImgAutoencoder():
     def __search_layer(self, name):
         res = None
         for l in self.autoencoder.layers:
-            print(l.name)
             if l.name == name:
                 res = l
         return res
