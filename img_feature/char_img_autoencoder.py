@@ -56,10 +56,10 @@ class CharImgAutoencoder():
         decoded = Conv2D(3, (3, 3), activation='sigmoid', padding='same')(x)
 
         autoencoder = Model(input_img, decoded)
-        loss = 'mean_squared_error'
-        loss = 'binary_crossentropy'
-        autoencoder.compile(optimizer='adam',
-                            loss=loss)
+        # loss = 'mean_squared_error'
+        # loss = 'binary_crossentropy'
+        # autoencoder.compile(optimizer='adam',
+        #                     loss=loss)
         autoencoder.summary()
         return autoencoder
 

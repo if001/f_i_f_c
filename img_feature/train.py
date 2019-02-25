@@ -16,6 +16,12 @@ def main():
     char_img.autoencoder.compile(optimizer='adam',
                                  loss='mean_squared_error',
                                  metrics=['acc'])
+    loss = 'mean_squared_error'
+    loss = 'binary_crossentropy'
+    opt = 'adam'
+    char_img.autoencoder.compile(optimizer=opt,
+                                 loss=loss)
+
     char_img.autoencoder.fit(train_x, train_y,
                              batch_size=256,
                              epochs=400,
