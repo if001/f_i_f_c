@@ -72,12 +72,12 @@ class CharImgAutoencoder():
     def __make_gray_scale_model(self):
         input_img = Input(shape=(28, 28, 1))
 
-        x = Conv2D(32, (3, 3), padding='same')(input_img)
+        x = Conv2D(128, (3, 3), padding='same')(input_img)
         x = BatchNormalization()(x)
         x = ReLU()(x)
         x = MaxPooling2D((2, 2), padding='same')(x)
 
-        x = Conv2D(16, (3, 3), padding='same')(x)
+        x = Conv2D(64, (3, 3), padding='same')(x)
         x = BatchNormalization()(x)
         x = ReLU()(x)
         x = MaxPooling2D((2, 2), padding='same')(x)
@@ -86,16 +86,16 @@ class CharImgAutoencoder():
         x = ReLU()(x)
         encoded = MaxPooling2D((2, 2), padding='same', name="encoder")(x)
 
-        x = Conv2D(8, (3, 3), padding='same', name="decoder")(encoded)
+        x = Conv2D(32, (3, 3), padding='same', name="decoder")(encoded)
         x = ReLU()(x)
         x = UpSampling2D((2, 2))(x)
 
-        x = Conv2D(16, (3, 3), padding='same')(x)
+        x = Conv2D(64, (3, 3), padding='same')(x)
         x = BatchNormalization()(x)
         x = ReLU()(x)
         x = UpSampling2D((2, 2))(x)
 
-        x = Conv2D(32, (3, 3))(x)
+        x = Conv2D(128, (3, 3))(x)
         x = BatchNormalization()(x)
         x = ReLU()(x)
         x = UpSampling2D((2, 2))(x)
