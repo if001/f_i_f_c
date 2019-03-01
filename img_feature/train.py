@@ -7,11 +7,11 @@ test_size = 10000
 
 def main():
     # char img autoencoderの学習
-    # train_x, train_y = ImgLoader.make_train_data("../font_img/image/")
+    # train_x, train_y = ImgLoader.make_train_data("../font_img/image/hiragino/")
     train_x, train_y = ImgLoader.make_train_data_two_file("../font_img/image/ricty/",
                                                           "../font_img/image/hiragino/",
                                                           )
-
+    print(train_x.shape)
     # test_x, test_y = ImgLoader.make_train_data_ramdom(
     #     test_size, "../font_img/image/")
     char_img = CharImgAutoencoder(
