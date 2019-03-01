@@ -9,10 +9,10 @@ import sys
 
 class FontImgOpt():
     def __init__(self, image_save_path="./image/", font_path="./fonts/"):
-        self.font_size = 28
-        self.font_size_en = 32
-        self.pict_height = 28
-        self.pict_width = 28
+        self.font_size = 32
+        self.font_size_en = 36
+        self.pict_height = 32
+        self.pict_width = 32
 
         self.font_file = os.path.join(
             font_path, 'RictyDiminished-Regular.ttf')
