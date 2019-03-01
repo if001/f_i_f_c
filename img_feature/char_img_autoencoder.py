@@ -8,10 +8,13 @@ import os
 
 class CharImgAutoencoder():
     def __init__(self, save_weight_file, init_model=False):
+        self.font_size = 32
+
         self.save_weight_file = save_weight_file
         if init_model:
             # self.autoencoder = self.__make_model()
-            self.autoencoder = self.__make_gray_scale_model()
+            # self.autoencoder = self.__make_gray_scale_model()
+            self.autoencoder = self.__make_gray_scale_model_simple()
             self.encoder = self.__make_encoder_model()
             self.decoder = self.__make_decoder_model()
         else:
@@ -26,7 +29,7 @@ class CharImgAutoencoder():
         return [es_cb, csv_logger]
 
     def __make_model(self):
-        input_img = Input(shape=(28, 28, 3))
+        input_img = Input(shape=(self.font_size, self.font_size, 3))
         x = Conv2D(16, (3, 3), padding='same')(input_img)
         # x = BatchNormalization()(x)
         x = ReLU()(x)
@@ -70,7 +73,7 @@ class CharImgAutoencoder():
         return autoencoder
 
     def __make_gray_scale_model(self):
-        input_img = Input(shape=(28, 28, 1))
+        input_img = Input(shape=(self.font_size, self.font_size, 1))
 
         x = Conv2D(256, (3, 3), padding='same')(input_img)
         x = BatchNormalization()(x)
@@ -96,6 +99,43 @@ class CharImgAutoencoder():
         x = UpSampling2D((2, 2))(x)
 
         x = Conv2D(256, (3, 3))(x)
+        x = BatchNormalization()(x)
+        x = ReLU()(x)
+        x = UpSampling2D((2, 2))(x)
+
+        decoded = Conv2D(1, (3, 3), activation='sigmoid', padding='same')(x)
+
+        autoencoder = Model(input_img, decoded)
+        autoencoder.summary()
+        return autoencoder
+
+    def __make_gray_scale_model_simple(self):
+        input_img = Input(shape=(self.font_size, self.font_size, 1))
+
+        x = Conv2D(32, (3, 3), padding='same')(input_img)
+        x = BatchNormalization()(x)
+        x = ReLU()(x)
+        x = MaxPooling2D((2, 2), padding='same')(x)
+
+        x = Conv2D(32, (3, 3), padding='same')(x)
+        x = BatchNormalization()(x)
+        x = ReLU()(x)
+        x = MaxPooling2D((2, 2), padding='same')(x)
+
+        x = Conv2D(8, (3, 3), padding='same')(x)
+        x = ReLU()(x)
+        encoded = MaxPooling2D((2, 2), padding='same', name="encoder")(x)
+
+        x = Conv2D(32, (3, 3), padding='same', name="decoder")(encoded)
+        x = ReLU()(x)
+        x = UpSampling2D((2, 2))(x)
+
+        x = Conv2D(32, (3, 3), padding='same')(x)
+        x = BatchNormalization()(x)
+        x = ReLU()(x)
+        x = UpSampling2D((2, 2))(x)
+
+        x = Conv2D(32, (3, 3))(x)
         x = BatchNormalization()(x)
         x = ReLU()(x)
         x = UpSampling2D((2, 2))(x)
