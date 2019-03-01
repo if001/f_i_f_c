@@ -9,13 +9,14 @@ import random as rand
 class ImgLoader():
     @classmethod
     def __img_open(cls, filepath):
+        font_size = 32
         try:
             img = Image.open(filepath)
             # img = img.convert("RGB")
             img = img.convert('L')
-            img = img.resize((28, 28))
+            img = img.resize((font_size, font_size))
             img = np.array(img)
-            img = img.reshape(28, 28, 1)
+            img = img.reshape(font_size, font_size, 1)
         except:
             img = None
         return img
