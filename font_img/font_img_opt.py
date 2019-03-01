@@ -33,8 +33,9 @@ class FontImgOpt():
             image = image.rotate(rad)
         print("save " + self.img_save_dir + yomi + "_" + prefix + ".png")
         bytes_yomi = yomi.encode("UTF-8").hex()
+        print(bytes_yomi)
         image.save(self.img_save_dir + bytes_yomi +
-                   "_" + prefix + ".png", 'PNG')
+                   "_" + "test" + prefix + ".png", 'PNG')
 
     def is_exist(self, yomi):
         return os.path.isfile(self.img_save_dir + yomi + '.png')
@@ -53,23 +54,23 @@ class FontImgOpt():
         return font
 
     def create_font_img(self, yomi_str, font, font_file=None):
-        img_pos = [(0, 0), (0, 3), (0, 6), (3, 0), (6, 0), (3, 3), (6, 6)]
+        img_pos = [(0, 0), (0, 2), (0, 3), (2, 0), (3, 0), (2, 2), (3, 3)]
         for i in range(len(img_pos)):
             prefix = str(i)
-            if not self.is_exist(yomi_str + "_" + prefix):
+            if not self.is_exist(yomi_str + prefix):
                 self.save_image(yomi_str, font, prefix, pos=img_pos[i])
 
         shape_method_set = [
-            ShapeMethodSet("flip", func=ImageOps.flip),
-            ShapeMethodSet("mirror", func=ImageOps.mirror),
-            ShapeMethodSet("rotate_90", rad=90),
-            ShapeMethodSet("rotate_180", rad=180),
+            # ShapeMethodSet("flip", func=ImageOps.flip),
+            # ShapeMethodSet("mirror", func=ImageOps.mirror),
+            # ShapeMethodSet("rotate_90", rad=90),
+            # ShapeMethodSet("rotate_180", rad=180),
             ShapeMethodSet("contrast_50", func=ShapeMethod.contrast_50),
             ShapeMethodSet("sharpness_0", func=ShapeMethod.sharpness_0),
             ShapeMethodSet("sharpness_2", func=ShapeMethod.sharpness_2),
-            ShapeMethodSet("gaussianblur", func=ShapeMethod.gaussian_bluer),
+            # ShapeMethodSet("gaussianblur", func=ShapeMethod.gaussian_bluer),
             ShapeMethodSet("erosion", func=ShapeMethod.erosion),
-            ShapeMethodSet("dilation", func=ShapeMethod.dilation),
+            # ShapeMethodSet("dilation", func=ShapeMethod.dilation),
         ]
 
         for shape_method in shape_method_set:
@@ -78,6 +79,7 @@ class FontImgOpt():
                                 shape_method.name,
                                 processing=shape_method.func,
                                 rad=shape_method.rad)
+        exit(0)
 
 
 class ShapeMethodSet():
