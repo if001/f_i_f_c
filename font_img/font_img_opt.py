@@ -18,6 +18,8 @@ class FontImgOpt():
         if font_file is None:
             self.font_file = './fonts/RictyDiminished-Regular.ttf'
             self.font_file = './fonts/hiragino_maru_go_ProN_W4.ttc'
+        else:
+            self.font_file = font_file
         self.img_save_dir = os.path.join(image_save_path)
 
     def save_image(self, yomi, font, prefix, processing=None, pos=(0, 0), rad=None):
@@ -34,9 +36,14 @@ class FontImgOpt():
 
         print("save " + self.img_save_dir + yomi + "_" + prefix + ".png")
         bytes_yomi = yomi.encode("UTF-8").hex()
-        save_img_name = "{}{}_{}_{}.png".format(
-            self.img_save_dir, bytes_yomi, prefix, self.save_img_prefix)
-        image.save(save_img_name, 'PNG')
+        print(bytes_yomi)
+        if self.save_img_prefix == "":
+            save_img_name = "{}_{}.png".format(bytes_yomi, prefix)
+        else:
+            save_img_name = "{}_{}{}.png".format(
+                bytes_yomi, prefix, self.save_img_prefix)
+
+        image.save(os.path.join(self.img_save_dir, save_img_name), 'PNG')
 
     def is_exist(self, yomi):
         return os.path.isfile(self.img_save_dir + yomi + '.png')
@@ -69,9 +76,9 @@ class FontImgOpt():
             ShapeMethodSet("contrast_50", func=ShapeMethod.contrast_50),
             ShapeMethodSet("sharpness_0", func=ShapeMethod.sharpness_0),
             ShapeMethodSet("sharpness_2", func=ShapeMethod.sharpness_2),
-            # ShapeMethodSet("gaussianblur", func=ShapeMethod.gaussian_bluer),
+            ShapeMethodSet("gaussianblur", func=ShapeMethod.gaussian_bluer),
             ShapeMethodSet("erosion", func=ShapeMethod.erosion),
-            # ShapeMethodSet("dilation", func=ShapeMethod.dilation),
+            ShapeMethodSet("dilation", func=ShapeMethod.dilation),
         ]
 
         for shape_method in shape_method_set:
@@ -110,7 +117,7 @@ class ShapeMethod():
 
     @classmethod
     def gaussian_bluer(cls, img):
-        img = img.filter(ImageFilter.GaussianBlur(3.0))
+        img = img.filter(ImageFilter.GaussianBlur(2.0))
         return img
 
     @classmethod
@@ -135,11 +142,19 @@ def main():
     if '' in char_list:
         char_list.remove('')
 
-    font_img_opt = FontImgOpt('./fonts/RictyDiminished-Regular.ttf')
-    for char in char_list:
+    font_img_opt = FontImgOpt(
+        './image/ricty/',
+        './fonts/RictyDiminished-Regular.ttf')
+    for char in char_list[:2]:
         font = font_img_opt.char2font(char)
         font_img_opt.create_font_img(char, font)
-    font_img_opt = FontImgOpt('./fonts/hiragino_maru_go_ProN_W4.ttc')
+    exit(0)
+    font_img_opt = FontImgOpt(
+        './image/hiragino/',
+        './fonts/hiragino_maru_go_ProN_W4.ttc')
+    for char in char_list[:2]:
+        font = font_img_opt.char2font(char)
+        font_img_opt.create_font_img(char, font)
 
 
 if __name__ == '__main__':
