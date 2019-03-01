@@ -145,14 +145,14 @@ def main():
     font_img_opt = FontImgOpt(
         './image/ricty/',
         './fonts/RictyDiminished-Regular.ttf')
-    for char in char_list[:2]:
+    for char in char_list:
         font = font_img_opt.char2font(char)
         font_img_opt.create_font_img(char, font)
-    exit(0)
+
     font_img_opt = FontImgOpt(
         './image/hiragino/',
         './fonts/hiragino_maru_go_ProN_W4.ttc')
-    for char in char_list[:2]:
+    for char in char_list:
         font = font_img_opt.char2font(char)
         font_img_opt.create_font_img(char, font)
 
