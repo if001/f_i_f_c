@@ -8,16 +8,16 @@ import sys
 
 
 class FontImgOpt():
-    def __init__(self, image_save_path="./image/", font_path="./fonts/"):
+    def __init__(self, image_save_path="./image/", font_file=None, save_img_prefix=""):
         self.font_size = 32
         self.font_size_en = 36
         self.pict_height = 32
         self.pict_width = 32
+        self.save_img_prefix = save_img_prefix
 
-        self.font_file = os.path.join(
-            font_path, 'RictyDiminished-Regular.ttf')
-        self.font_file = os.path.join(
-            font_path, 'hiragino_maru_go_ProN_W4.ttc')
+        if font_file is None:
+            self.font_file = './fonts/RictyDiminished-Regular.ttf'
+            self.font_file = './fonts/hiragino_maru_go_ProN_W4.ttc'
         self.img_save_dir = os.path.join(image_save_path)
 
     def save_image(self, yomi, font, prefix, processing=None, pos=(0, 0), rad=None):
@@ -31,11 +31,12 @@ class FontImgOpt():
             image = processing(image)
         if rad is not None:
             image = image.rotate(rad)
+
         print("save " + self.img_save_dir + yomi + "_" + prefix + ".png")
         bytes_yomi = yomi.encode("UTF-8").hex()
-        print(bytes_yomi)
-        image.save(self.img_save_dir + bytes_yomi +
-                   "_" + "test" + prefix + ".png", 'PNG')
+        save_img_name = "{}{}_{}_{}.png".format(
+            self.img_save_dir, bytes_yomi, prefix, self.save_img_prefix)
+        image.save(save_img_name, 'PNG')
 
     def is_exist(self, yomi):
         return os.path.isfile(self.img_save_dir + yomi + '.png')
@@ -79,7 +80,6 @@ class FontImgOpt():
                                 shape_method.name,
                                 processing=shape_method.func,
                                 rad=shape_method.rad)
-        exit(0)
 
 
 class ShapeMethodSet():
@@ -135,10 +135,11 @@ def main():
     if '' in char_list:
         char_list.remove('')
 
-    font_img_opt = FontImgOpt()
+    font_img_opt = FontImgOpt('./fonts/RictyDiminished-Regular.ttf')
     for char in char_list:
         font = font_img_opt.char2font(char)
         font_img_opt.create_font_img(char, font)
+    font_img_opt = FontImgOpt('./fonts/hiragino_maru_go_ProN_W4.ttc')
 
 
 if __name__ == '__main__':
