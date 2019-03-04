@@ -68,7 +68,7 @@ def all_save_kvs():
     image_file_dir = "../font_img/image/hiragino/"
     image_files = os.listdir(image_file_dir)
 
-    img_char_opt = ImgCharOpt()
+    img_char_opt = ImgCharOpt(image_file_dir)
     for fname in image_files:
         if "_0" in img_char_opt.exclude_extension(fname):
             yomi = img_char_opt.exclude_extension(fname).split("_")[0]
