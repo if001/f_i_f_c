@@ -4,6 +4,8 @@ from img_feature.img_feature_opt import ImgFeatureOpt
 from PIL import Image, ImageDraw
 import numpy as np
 
+font_size = 32
+
 
 class FifcOpt():
     def __init__(self):
@@ -43,9 +45,9 @@ def img_open(filepath):
     img = Image.open(filepath)
     # img = img.convert("RGB")
     img = img.convert("L")
-    img = img.resize((28, 28))
+    img = img.resize((font_size, font_size))
     img = np.array(img)
-    img = img.reshape(28, 28, 1)
+    img = img.reshape(font_size, font_size, 1)
     return img
 
 

@@ -69,10 +69,10 @@ class FontImgOpt():
                 self.save_image(yomi_str, font, prefix, pos=img_pos[i])
 
         shape_method_set = [
-            # ShapeMethodSet("flip", func=ImageOps.flip),
-            # ShapeMethodSet("mirror", func=ImageOps.mirror),
-            # ShapeMethodSet("rotate_90", rad=90),
-            # ShapeMethodSet("rotate_180", rad=180),
+            ShapeMethodSet("flip", func=ImageOps.flip),
+            ShapeMethodSet("mirror", func=ImageOps.mirror),
+            ShapeMethodSet("rotate_90", rad=90),
+            ShapeMethodSet("rotate_180", rad=180),
             ShapeMethodSet("contrast_50", func=ShapeMethod.contrast_50),
             ShapeMethodSet("sharpness_0", func=ShapeMethod.sharpness_0),
             ShapeMethodSet("sharpness_2", func=ShapeMethod.sharpness_2),
