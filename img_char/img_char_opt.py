@@ -24,7 +24,8 @@ class ImgCharOpt():
 
     def load_image(self, yomi):
         img = Image.open(self.image_save_path + yomi + "_0.png")
-        img = img.convert("RGB")
+        # img = img.convert("RGB")
+        img = img.convert("L")
         img = img.resize((self.font_size, self.font_size))
         img = np.array(img)
         return img
@@ -42,6 +43,10 @@ class ImgCharOpt():
             if (self.extension(fname)) == "png" and (self.exclude_extension(fname).split("_")[1] == "0"):
                 yomi = self.exclude_extension(fname).split("_")[0]
                 load_img = self.i2k.get(yomi)
+                print(img.shape)
+                load_img = np.array(load_img)
+                print(load_img.shape)
+                exit(0)
                 sim = self.similarity(img, load_img)
                 if dig_sim < sim:
                     dig_sim = sim
@@ -53,7 +58,8 @@ class ImgCharOpt():
         bytes_yomi = char.encode("UTF-8").hex()
         img = self.i2k.get(bytes_yomi)
         img = np.array(img)
-        img.resize((28, 28, 3))
+        # img.resize((self.font_size, self.font_size, 3)) #color
+        img.resize((self.font_size, self.font_size, 1))  # gray
         return img
         # image_path = os.path.join(self.image_save_path, bytes_yomi + "_0.png")
         # return self.load_image(image_path)
