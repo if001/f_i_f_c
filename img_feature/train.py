@@ -1,5 +1,7 @@
 from char_img_autoencoder import CharImgAutoencoder
 from img_loader import ImgLoader
+from keras.utils import plot_model
+
 
 data_size = 80000
 test_size = 10000
@@ -25,6 +27,7 @@ def main():
     char_img.autoencoder.compile(optimizer=opt,
                                  loss=loss,
                                  metrics=['acc'])
+    # plot_model(char_img.autoencoder, to_file='./debug_data/auto_encoder.png')
 
     char_img.autoencoder.fit(train_x, train_y,
                              batch_size=128,
@@ -32,7 +35,7 @@ def main():
                              verbose=1,
                              validation_split=0.2,
                              # validation_data=(test_x, test_y),
-                             callbacks=char_img.callback_list())
+                             callbacks=char_img.callback_list(log_file_name="./debug_data/training_log.csv"))
     char_img.save_model()
 
 
