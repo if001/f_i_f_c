@@ -13,7 +13,8 @@ def main():
     print(df)
     # plt.figure()
     df.plot()
-    plt.show()
+    # plt.show()
+    plt.savefig("./debug_data/training_log.png")
 
 
 if __name__ == "__main__":
