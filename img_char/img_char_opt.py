@@ -43,10 +43,6 @@ class ImgCharOpt():
             if (self.extension(fname)) == "png" and (self.exclude_extension(fname).split("_")[1] == "0"):
                 yomi = self.exclude_extension(fname).split("_")[0]
                 load_img = self.i2k.get(yomi)
-                print(img.shape)
-                load_img = np.array(load_img)
-                print(load_img.shape)
-                exit(0)
                 sim = self.similarity(img, load_img)
                 if dig_sim < sim:
                     dig_sim = sim
@@ -61,8 +57,6 @@ class ImgCharOpt():
         # img.resize((self.font_size, self.font_size, 3)) #color
         img.resize((self.font_size, self.font_size, 1))  # gray
         return img
-        # image_path = os.path.join(self.image_save_path, bytes_yomi + "_0.png")
-        # return self.load_image(image_path)
 
 
 def all_save_kvs():
