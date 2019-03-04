@@ -11,6 +11,7 @@ class ImgCharOpt():
     def __init__(self, image_save_path="../font_img/image/", db_path="./image_save_dict/"):
         self.image_save_path = image_save_path
         self.i2k = ImageSaveKvs(save_db_path=db_path)
+        self.font_size = 32
 
     def exclude_extension(self, st):
         return st.split(".")[0]
@@ -24,7 +25,7 @@ class ImgCharOpt():
     def load_image(self, yomi):
         img = Image.open(self.image_save_path + yomi + "_0.png")
         img = img.convert("RGB")
-        img = img.resize((28, 28))
+        img = img.resize((self.font_size, self.font_size))
         img = np.array(img)
         return img
 
@@ -59,7 +60,12 @@ class ImgCharOpt():
 
 
 def all_save_kvs():
-    image_file_dir = "../font_img/image/"
+    """
+    フォント画像は複数のディレクトリに別れているが、
+    読みと保存した画像ファイル名はディレクトリごとに同じなので
+    1つのディレクトリに保存されてる画像ファイル名のみマッピングさせる
+    """
+    image_file_dir = "../font_img/image/hiragino/"
     image_files = os.listdir(image_file_dir)
 
     img_char_opt = ImgCharOpt()
