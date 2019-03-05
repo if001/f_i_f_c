@@ -1,6 +1,10 @@
-from font_img.font_img_opt import FontImgOpt
-from img_char.img_char_opt import ImgCharOpt
-from img_feature.img_feature_opt import ImgFeatureOpt
+# from font_img.font_img_opt import FontImgOpt
+# from img_char.img_char_opt import ImgCharOpt
+# from img_feature.img_feature_opt import ImgFeatureOpt
+from .font_img.font_img_opt import FontImgOpt
+from .img_char.img_char_opt import ImgCharOpt
+from .img_feature.img_feature_opt import ImgFeatureOpt
+
 from PIL import Image, ImageDraw
 import numpy as np
 
@@ -8,11 +12,12 @@ font_size = 32
 
 
 class FifcOpt():
-    def __init__(self):
+    def __init__(self, font_file_path="./font_img/image/",
+                 dict_file_path="./img_char/image_save_dict/",
+                 weight_file_path="./img_feature/weight/char_feature.hdf5"):
         self.__img_char_opt = ImgCharOpt(
-            "./font_img/image/", "./img_char/image_save_dict/")
-        self.__img_feat_opt = ImgFeatureOpt(
-            "./img_feature/weight/char_feature.hdf5")
+            font_file_path, dict_file_path)
+        self.__img_feat_opt = ImgFeatureOpt(weight_file_path)
 
     def img2char(self, img):
         char = self.__img_char_opt.image2char(img)

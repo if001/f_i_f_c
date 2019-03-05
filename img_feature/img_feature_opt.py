@@ -1,6 +1,7 @@
 import sys
 sys.path.append("../")
-from img_feature.char_img_autoencoder import CharImgAutoencoder
+# from img_feature.char_img_autoencoder import CharImgAutoencoder
+from .char_img_autoencoder import CharImgAutoencoder
 import numpy as np
 
 

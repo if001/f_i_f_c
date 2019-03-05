@@ -4,7 +4,7 @@ import numpy as np
 import os
 import sys
 sys.path.append("../")
-from img_char.img_save_kvs import ImageSaveKvs
+from ..img_char.img_save_kvs import ImageSaveKvs
 
 
 class ImgCharOpt():
