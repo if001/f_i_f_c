@@ -1,36 +1,62 @@
 from char_img_autoencoder import CharImgAutoencoder
 from img_loader import ImgLoader
 from keras.utils import plot_model
+from keras.optimizers import SGD
+import numpy as np
 
 
 data_size = 80000
 test_size = 10000
 
 
+def save_npz(save_train_file, train, teach):
+
+    np.savez(save_train_file, train=train, teach=teach)
+    print("save ", save_train_file)
+    exit(0)
+
+
+def load_npz(save_train_file):
+    load = np.load(save_train_file)
+    print("load ", save_train_file)
+    train = load['train']
+    teach = load['teach']
+
+    return train, teach
+
+
 def main():
     # char img autoencoderの学習
-    # train_x, train_y = ImgLoader.make_train_data("../font_img/image/hiragino/")
-    train_x, train_y = ImgLoader.make_train_data_two_file("../font_img/image/ricty/",
-                                                          "../font_img/image/hiragino/",
-                                                          )
-    print(train_x.shape)
+
+    save_train_file = "./debug_data/train.npz"
+
+    # train, teach = ImgLoader.make_train_data("../font_img/image/hiragino/")
+    # train, teach = ImgLoader.make_train_data_two_file("../font_img/image/ricty/",
+    #                                                   "../font_img/image/hiragino/")
+    # save_npz(save_train_file, train, teach)
+
+    train, teach = load_npz(save_train_file)
+    print("train data:", train.shape)
+    print("teach data:", teach.shape)
     # test_x, test_y = ImgLoader.make_train_data_ramdom(
     #     test_size, "../font_img/image/")
     char_img = CharImgAutoencoder(
-        "./weight/char_feature.hdf5", init_model=True)
+        "./weight/char_feature_simple.hdf5", init_model=True)
 
     loss = 'binary_crossentropy'
     loss = 'mean_squared_error'
 
     opt = 'adadelta'
     opt = 'adam'
+    opt = 'sgd'
+    opt = SGD(lr=0.01, momentum=0.9, nesterov=True)
     char_img.autoencoder.compile(optimizer=opt,
                                  loss=loss,
                                  metrics=['acc'])
     # plot_model(char_img.autoencoder, to_file='./debug_data/auto_encoder.png')
 
-    char_img.autoencoder.fit(train_x, train_y,
-                             batch_size=128,
+    char_img.autoencoder.fit(train, teach,
+                             batch_size=1024,
                              epochs=2000,
                              verbose=1,
                              validation_split=0.2,
