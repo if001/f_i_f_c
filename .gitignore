@@ -1,15 +1,25 @@
+__pycache__/*
+*.png
+
+
 data/*
 !data/.gitkeep
 font_img/image/*
 !font_img/image/.gitkeep
 font_img/fonts/hiragino_maru_go_ProN_W4.ttc
+font_img/fonts/OpenSans-Regular.ttf
 font_img/__pycache__
+font_img/.#*
 
 img_char/image_save_dict/*
 !img_char/image_save_dict/.gitkeep
 img_char/__pycache__
 
+
 img_feature/__pycache__
 img_feature/weight/*
 !img_feature/weight/.gitkeep
 img_feature/training_log.csv
+img_feature/test.csv
+img_feature/debug_data/*
+!img_feature/debug_data/.gitkeep

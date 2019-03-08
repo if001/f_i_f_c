@@ -3,7 +3,7 @@ from img_loader import ImgLoader
 from keras.utils import plot_model
 from keras.optimizers import SGD
 import numpy as np
-
+import sys
 
 data_size = 80000
 test_size = 10000
@@ -28,12 +28,14 @@ def load_npz(save_train_file):
 def main():
     # char img autoencoderの学習
 
-    save_train_file = "./debug_data/train.npz"
-
-    # train, teach = ImgLoader.make_train_data("../font_img/image/hiragino/")
-    # train, teach = ImgLoader.make_train_data_two_file("../font_img/image/ricty/",
-    #                                                   "../font_img/image/hiragino/")
-    # save_npz(save_train_file, train, teach)
+    save_train_file = "./debug_data/train_font-size64_add_font.npz"
+    if sys.argv[-1] == "save":
+        # train, teach = ImgLoader.make_train_data("../font_img/image/hiragino/")
+        train, teach = ImgLoader.make_train_data_any_file(["../font_img/images/ricty/",
+                                                           "../font_img/images/hiragino/",
+                                                           "../font_img/images/hiragino_mintyou/"])
+        save_npz(save_train_file, train, teach)
+        exit(0)
 
     train, teach = load_npz(save_train_file)
     print("train data:", train.shape)
@@ -56,7 +58,7 @@ def main():
     # plot_model(char_img.autoencoder, to_file='./debug_data/auto_encoder.png')
 
     char_img.autoencoder.fit(train, teach,
-                             batch_size=1024,
+                             batch_size=128,
                              epochs=2000,
                              verbose=1,
                              validation_split=0.2,

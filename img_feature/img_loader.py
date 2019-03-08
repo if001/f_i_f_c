@@ -9,7 +9,8 @@ import random as rand
 class ImgLoader():
     @classmethod
     def __img_open(cls, filepath):
-        font_size = 32
+        # font_size = 32
+        font_size = 64
         try:
             img = Image.open(filepath)
             # img = img.convert("RGB")
@@ -40,21 +41,16 @@ class ImgLoader():
         return image_list, image_list
 
     @classmethod
-    def make_train_data_two_file(cls, img_file_dir1, img_file_dir2):
+    def make_train_data_any_file(cls, img_file_dir_list):
         image_list = []
-        files = os.listdir(img_file_dir1)
-        for f in files:
-            if (f.split(".")[-1] == "png"):
-                filepath = os.path.join(img_file_dir1, f)
-                img = cls.__img_open(filepath)
-                image_list.append(img / 255.)
-
-        files = os.listdir(img_file_dir2)
-        for f in files:
-            if (f.split(".")[-1] == "png"):
-                filepath = os.path.join(img_file_dir2, f)
-                img = cls.__img_open(filepath)
-                image_list.append(img / 255.)
+        for img_file_dir in img_file_dir_list:
+            print("start :", img_file_dir)
+            files = os.listdir(img_file_dir)
+            for f in files:
+                if (f.split(".")[-1] == "png"):
+                    filepath = os.path.join(img_file_dir, f)
+                    img = cls.__img_open(filepath)
+                    image_list.append(img / 255.)
 
         image_list = np.array(image_list)
         return image_list, image_list

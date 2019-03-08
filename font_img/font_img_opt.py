@@ -9,10 +9,10 @@ import sys
 
 class FontImgOpt():
     def __init__(self, image_save_path="./image/", font_file=None, save_img_prefix=""):
-        self.font_size = 32
-        self.font_size_en = 36
-        self.pict_height = 32
-        self.pict_width = 32
+        self.font_size = 64
+        self.font_size_en = 68
+        self.pict_height = 64
+        self.pict_width = 64
         self.save_img_prefix = save_img_prefix
 
         if font_file is None:
@@ -54,11 +54,12 @@ class FontImgOpt():
             font_file = self.font_file
         print(font_file)
         if unicodedata.east_asian_width(char) in 'FWA':  # 全角のとき
+            print("FWA")
             font = ImageFont.truetype(
                 font_file, self.font_size, encoding='unic')
         else:
             font = ImageFont.truetype(
-                font_file, self.font_size_en, encoding='unic')
+                font_file, self.font_size_en, encoding='utf-8')
         return font
 
     def create_font_img(self, yomi_str, font, font_file=None):
@@ -143,19 +144,36 @@ def main():
         char_list.remove('')
 
     font_img_opt = FontImgOpt(
-        './image/ricty/',
+        './images/ricty/',
         './fonts/RictyDiminished-Regular.ttf')
     for char in char_list:
         font = font_img_opt.char2font(char)
         font_img_opt.create_font_img(char, font)
 
     font_img_opt = FontImgOpt(
-        './image/hiragino/',
+        './images/hiragino/',
         './fonts/hiragino_maru_go_ProN_W4.ttc')
     for char in char_list:
         font = font_img_opt.char2font(char)
         font_img_opt.create_font_img(char, font)
 
+    font_img_opt = FontImgOpt(
+        './images/hiragino_mintyou/',
+        './fonts/hiragino_mintyou_w3.ttc')
+    for char in char_list:
+        font = font_img_opt.char2font(char)
+        font_img_opt.create_font_img(char, font)
+
+
+def test():
+    font_img_opt = FontImgOpt(
+        './images/test/',
+        './fonts/hiragino_mintyou_w3.ttc')
+    char = "A"
+    font = font_img_opt.char2font(char)
+    font_img_opt.create_font_img(char, font)
+
 
 if __name__ == '__main__':
     main()
+    # test()
