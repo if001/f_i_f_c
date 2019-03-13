@@ -37,13 +37,15 @@ def main():
         save_npz(save_train_file, train, teach)
         exit(0)
 
+    if len(sys.argv) == 2 and sys.argv[-1] != "save":
+        weight_file = sys.argv[-1]
+        # weight_file = "./weight/char_feature_simple.hdf5"
     train, teach = load_npz(save_train_file)
     print("train data:", train.shape)
     print("teach data:", teach.shape)
     # test_x, test_y = ImgLoader.make_train_data_ramdom(
     #     test_size, "../font_img/image/")
-    char_img = CharImgAutoencoder(
-        "./weight/char_feature_simple.hdf5", init_model=True)
+    char_img = CharImgAutoencoder(wight_file, init_model=True)
 
     loss = 'binary_crossentropy'
     loss = 'mean_squared_error'
