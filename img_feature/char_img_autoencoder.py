@@ -18,9 +18,9 @@ class CharImgAutoencoder():
             # self.autoencoder = self.__make_gray_scale_model_simple()
             # self.autoencoder = self.__make_gray_scale_model_deep()
             # self.autoencoder = self.__make_fully_econnected_model(debug=True)
-            # self.autoencoder = self.__make_contracting_path_model(debug=True)
+            self.autoencoder = self.__make_contracting_path_model(debug=True)
             # self.autoencoder = self.__make_gray_scale_flat_model()
-            self.autoencoder = self.__make_some_filter_model()
+            # self.autoencoder = self.__make_some_filter_model()
             # self.encoder = self.__make_encoder_model()
             # self.decoder = self.__make_decoder_model()
         else:
